@@ -74,11 +74,6 @@ static int FindMirror2(string[] grid)
         var above = grid[..i].Reverse().ToArray();
         var below = grid[i..];
 
-        if (below.Length <= above.Length)
-            above = above[..below.Length];
-        if (above.Length <= below.Length)
-            below = below[..above.Length];
-
         if (Enumerable.Sum(Enumerable.Zip(above, below, (x, y) => Enumerable.Sum(Enumerable.Zip(x, y, (a, b) => a.Equals(b) ? 0 : 1)))) == 1)
             return i;
     }
