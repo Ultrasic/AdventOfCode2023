@@ -10,15 +10,15 @@ int b = 0;
 
 foreach (string input in inputs)
 {
-    string direction = input.Split(" ")[0];
-    int factor = int.Parse(input.Split(" ")[1]);
+    string[] split = input.Split(" ");
+    int factor = int.Parse(split[1]);
     (int row, int column) = points.Last();
-    (int directionRow, int directionColumn) = directions[direction];
+    (int directionRow, int directionColumn) = directions[split[0]];
     b += factor;
     points.Add((row + directionRow * factor, column + directionColumn * factor));
 }
 
-int area = Math.Abs(points.Select((point, i) => points[i].X * (points[i - 1 >= 0 ? i - 1 : ^1].Y - points[(i + 1) % points.Count].Y)).Sum()) / 2;
+int area = Math.Abs(Enumerable.Range(0, points.Count).Select(i => points[i].X * (points[i - 1 >= 0 ? i - 1 : ^1].Y - points[(i + 1) % points.Count].Y)).Sum()) / 2;
 int i = area - b / 2 + 1;
 
 Console.WriteLine(i + b);
@@ -32,11 +32,10 @@ long longB = 0;
 
 foreach (string input in inputs)
 {
-    string x = input.Split(" ")[2];
-    x = x[2..^1];
-    long factor = long.Parse(x[..^1], System.Globalization.NumberStyles.HexNumber);
+    string colorCode = input.Split(" ")[2][2..^1];
+    long factor = long.Parse(colorCode[..^1], System.Globalization.NumberStyles.HexNumber);
     (long row, long column) = pointsLong.Last();
-    (int directionRow, int directionColumn) = directions[char.ToString("RDLU"[(int)char.GetNumericValue(x[^1])])];
+    (int directionRow, int directionColumn) = directions["RDLU"[(int)char.GetNumericValue(colorCode[^1])].ToString()];
     longB += factor;
     pointsLong.Add((row + directionRow * factor, column + directionColumn * factor));
 }
